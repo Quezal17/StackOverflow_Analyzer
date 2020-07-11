@@ -17,6 +17,14 @@ services:
     networks:
       stackoflw:
         ipv4_address: "10.0.100.25"
+  spark:
+    build: Spark/
+    container_name: "stackoflw-spark"
+    depends_on:
+      - "kafka"
+    networks:
+      stackoflw:
+        ipv4_address: "10.0.100.42"
 
 networks:
   stackoflw:
