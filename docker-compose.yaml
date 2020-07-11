@@ -1,0 +1,26 @@
+version: "3.7"
+
+services:
+  zookeeper:
+    image: zookeeper
+    container_name: "stackoflw-zookeeper"
+    ports:
+      - 2181:2181
+    networks:
+      stackoflw:
+        ipv4_address: "10.0.100.22"
+  kafka:
+    build: Kafka/
+    container_name: "stackoflw-kafka"
+    depends_on:
+      - "zookeeper"
+    networks:
+      stackoflw:
+        ipv4_address: "10.0.100.25"
+
+networks:
+  stackoflw:
+    ipam:
+      driver: default
+      config:
+        - subnet: 10.0.100.0/24
