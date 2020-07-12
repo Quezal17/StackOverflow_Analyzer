@@ -1,29 +1,24 @@
-FROM openjdk:8
+#FROM openjdk:8
+FROM maven:latest
 
-ENV SPARK_VERSION "2.4.6"
+ENV SPARK_VERSION "3.0.0"
 ENV SPARK_DIR "/opt/spark"
 ENV PATH $SPARK_DIR/bin:$PATH
 ENV PATH "/root/.local/bin:$PATH"
-ENV PATH "/opt/tap/code:$PATH"
+ENV PATH "/opt/code:$PATH"
 ENV SPARK_SETUP "Setup"
 ENV PYTHON_DIR "PythonCode"
-
-RUN apt-get update && apt-get -y install python3.7 python3-pip
-
-RUN pip3 install pyspark==2.4.6    
-
-ENV PYSPARK_DRIVER_PYTHON python3.7
-ENV PYSPARK_PYTHON python3.7
+ENV CODE_DIR "/opt/code/"
 
 ADD ${SPARK_SETUP}/spark-${SPARK_VERSION}-bin-hadoop2.7.tgz /opt
 
 # Create Sym Link 
 RUN ln -s /opt/spark-${SPARK_VERSION}-bin-hadoop2.7 ${SPARK_DIR} 
 
-COPY ${PYTHON_DIR}/*  /opt/tap/code/
+COPY ${SPARK_SETUP}/Spark-Consumer-0.0.1-SNAPSHOT.jar ${CODE_DIR}
 
 # Add Spark Starter
-COPY ${SPARK_SETUP}/spark-starter.sh $SPARK_DIR/bin/
+COPY ${SPARK_SETUP}/spark-starter.sh ${CODE_DIR}
 
-WORKDIR ${SPARK_DIR}/bin
+WORKDIR ${CODE_DIR}
 CMD ./spark-starter.sh

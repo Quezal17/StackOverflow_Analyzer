@@ -1,2 +1,2 @@
 sleep 15s
-./spark-submit --packages org.apache.spark:spark-streaming-kafka-0-8_2.11:2.4.6 --py-files /opt/tap/code/sparkConsumer.py
+/opt/spark/bin/spark-submit --class stackoflw_spark_consumer.StackoflwConsumer --master local[2] /opt/code/Spark-Consumer-0.0.1-SNAPSHOT.jar
