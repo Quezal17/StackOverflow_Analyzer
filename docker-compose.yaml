@@ -23,7 +23,18 @@ services:
     ports:
       - 9200:9200
     environment:
-      discovery.type: single-node
+      - node.name=esStackoflw
+      - cluster.name=es-docker-cluster
+      - cluster.initial_master_nodes=esStackoflw
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      nofile:
+        soft: 65536
+        hard: 65536
+      memlock:
+        soft: -1
+        hard: -1
     networks:
       stackoflw:
         ipv4_address: "10.0.100.51"

@@ -40,7 +40,7 @@ public class WSSListener extends WebSocketListener{
 		String data = response.getString("data");
 		JSONObject dataJson = new JSONObject(data);
 		String questionSite = dataJson.getString("apiSiteParameter");
-		if(questionSite.contains("stackoverflow"))
+		if(questionSite.equals("stackoverflow"))
 			addQuestionToQueue(data);
 	}
 
