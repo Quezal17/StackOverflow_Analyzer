@@ -7,7 +7,6 @@ ENV PATH $SPARK_DIR/bin:$PATH
 ENV PATH "/root/.local/bin:$PATH"
 ENV PATH "/opt/code:$PATH"
 ENV SPARK_SETUP "Setup"
-ENV PYTHON_DIR "PythonCode"
 ENV CODE_DIR "/opt/code/"
 
 ADD ${SPARK_SETUP}/spark-${SPARK_VERSION}-bin-hadoop2.7.tgz /opt
