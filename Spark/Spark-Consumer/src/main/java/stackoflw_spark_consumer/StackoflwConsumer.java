@@ -59,7 +59,7 @@ public class StackoflwConsumer {
 		Dataset<Row> featuresTrainingDataset = PipelineInstance.getInstance().transform(trainingDataset);
 		KmeansInstance.getInstance().fit(featuresTrainingDataset);
 		
-		Dataset<Row> predictTraining = KmeansInstance.getInstance().transform(featuresTrainingDataset);
+		//Dataset<Row> predictTraining = KmeansInstance.getInstance().transform(featuresTrainingDataset);
 		
 		/* Silhouette score
 		predictTraining.select("prediction").groupBy("prediction").count().show(false);
