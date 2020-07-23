@@ -1,6 +1,6 @@
 **/.settings/
 **/target/
-*/.ipynb_checkpoints/
+.ipynb_checkpoints/
 *.tgz
 *.cache-main
 *.cache-tests
