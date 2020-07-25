@@ -26,17 +26,17 @@ Kafka includes <a href="https://kafka.apache.org/documentation.html#connect">Con
 
 <img src="../docs/project-overview/images/kafka-connect-logo.svg" width="400" height="200">
 
-The Kafka Connector is used for the process of Data Ingestion. A web socket module has the task of connecting to the Stack Exchange web socket, filtering data received about only Stack Overflow domain and writing record to a Blocking Queue named *QuestionsQueue*. The connector has the task of reading from a QuestionsQueue and writing record into the Kafka topic named *stackoverflow*.
+The Kafka Connector is used for the process of Data Ingestion. A web socket module connects to the Stack Exchange web socket and filters the data received from the Stack Overflow domain only. Then, a record will be written into the Blocking Queue, named *QuestionsQueue*. The Connector will read record from QuestionsQueue and it will write them into the Kafka topic, named *stackoverflow*.
 
 <img src="../docs/project-overview/images/data-ingestion-schema.svg" width="600" height="200">
 
 <img src="../docs/project-overview/images/kafka-schema.svg" width="600" height="200">
 
-It was built using Java 11 and <a href="https://maven.apache.org/">Apache Maven</a>.
+The Kafka Connector was built using Java 11 and <a href="https://maven.apache.org/">Apache Maven</a>.
 
 ### Kafka properties
 
-Kafka properties are set in **worker.properties** and **source-setup.properties** files.
+Kafka properties are set up in **worker.properties** and **source-setup.properties** files.
 
 ### Maven Dependencies
 
@@ -62,7 +62,7 @@ Kafka properties are set in **worker.properties** and **source-setup.properties*
 
 ### Retrieving data
 
-Data are retrieved from Stack Exchange web socket, filtered by domain and written on a Blocking Queue named _QuestionsQueue_.
+Data are retrieved from Stack Exchange web socket, filtered by domain and written on _QuestionsQueue_.
 
 ```java
 
@@ -101,8 +101,8 @@ Data are retrieved from Stack Exchange web socket, filtered by domain and writte
 
 The web socket address is: <code>wss://qa.sockets.stackexchange.com/</code>
 
-As soon as it is connected to the web socket, it sends a request to subscribe the client to receive specific type of data.<br>
-In this case, the request is <code> 155-questions-active</code>, that retrieve real-time questions from all site of Stack Exchange network.
+As soon as the connection is open, the Connector sends a request of subscription for the client in order to receive specific type of data.<br>
+In this case, the request code is <code>155-questions-active</code>. This will retrieve real-time questions from all sites of Stack Exchange network.
 
 Requests available:
 
@@ -115,9 +115,9 @@ Requests available:
 - _[siteid]-questions-active-tag-[tagname]_: Active for a specific tag.
 - _[siteid]-question-[questionid]_: Updates for a question.
 
-It's possible to unsubscribe from an event by prepending a single dash before the request.
+It is possible to unsubscribe from an event by prepending a single dash before the request code.
 
-To find the site id, it's possible to parse <a href="https://meta.stackexchange.com/topbar/site-switcher/site-list">this page</a>. The site id **155** refers to Stack Exchange.
+To find the site id, it is possible to parse <a href="https://meta.stackexchange.com/topbar/site-switcher/site-list">this page</a>. The site id **155** refers to Stack Exchange.
 
 #### Data example
 
@@ -125,7 +125,7 @@ To find the site id, it's possible to parse <a href="https://meta.stackexchange.
 
 #### Heartbeat
 
-Every 5 minutes, the socket sends a heartbeat request. If the client replys with heartbeat response, the connection will kept alive.
+Every 5 minutes, the socket sends a heartbeat request. If the client replys with heartbeat response, the connection will be kept alive.
 
 Heartbeat request:
 <code>
@@ -138,7 +138,7 @@ Heartbeat response: ```pong```
 
 To create a Source Kafka Connector two classes are needed: 
 - One that extends **SourceConnector**, responsible of configuring and creating the SourceTask(s);
-- One that extends **SourceTask**, responsible of getting the effective work done and writing the data into the Kafka topic named _stackoverflow_.
+- One that extends **SourceTask**, responsible of getting the effective work done and writing the data into the Kafka topic.
 
 ```java
 public class StackoflwSourceConnector extends SourceConnector{
@@ -201,11 +201,11 @@ public class StackoflwSourceTask extends SourceTask{
 	}
 }
 ```
-The **poll()** method of the SourceTask is called periodically (default every 3 seconds) by Kafka Connect. It is responsible of returning a list of SourceRecord elements that will be written to the Kafka topic.
+The **poll()** method of the SourceTask is called periodically (every 3 seconds by default) by Kafka Connect. It is responsible of returning a list of SourceRecord elements that will be written to the Kafka topic.
 
 ## Build Kafka Connector
 
-Run ```bash build-connector.sh``` command inside Kafka/Setup directory to build the Kafka Connector.
+Run the following command ```bash build-connector.sh``` inside Kafka/Setup directory to build the Kafka Connector.
 
 ## Docker container information
 

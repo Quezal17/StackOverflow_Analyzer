@@ -1,6 +1,6 @@
 # Data Processing
 
-<img src="../docs/project-overview/images/data-processing-schema.svg" width="800" height="200">
+<img src="../docs/project-overview/images/data-processing-schema.svg" width="800" height="300">
 
 ## What is Apache Spark?
 
@@ -26,11 +26,11 @@ Type of algorithms provided:
 
 <img src="../docs/project-overview/images/spark-streaming-logo.png" width="300" height="200">
 
-<a href="https://spark.apache.org/docs/latest/streaming-programming-guide.html">Apache Spark Streaming</a> is a scalable fault-tolerant streaming processing system that natively supports both batch and streaming workloads. Spark Streaming is an extension of the core Spark API that allows data engineers and data scientists to process real-time data from various sources, including Kafka. This processed data can be pushed out to file systems, databases, and live dashboards.
+<a href="https://spark.apache.org/docs/latest/streaming-programming-guide.html">Apache Spark Streaming</a> is a scalable fault-tolerant streaming processing system that natively supports both batch and streaming workloads. Spark Streaming is an extension of the core Spark API that allows data engineers and data scientists to process real-time data from various sources, including Kafka. 
 
 ## Spark Consumer
 
-It was built usign Spark 3.0.0, Java 11 and <a href="https://maven.apache.org/">Apache Maven</a>.
+It was built using Spark 3.0.0, Java 11 and <a href="https://maven.apache.org/">Apache Maven</a>.
 
 ### Maven Dependencies
 
@@ -79,7 +79,7 @@ It was built usign Spark 3.0.0, Java 11 and <a href="https://maven.apache.org/">
 
 ### Retrieving data from Kafka
 
-The streaming is configured to read from Kafka topic _stackoverflow_, preparing data for being processed.
+The streaming is configured to read from Kafka topic _stackoverflow_ in order to prepare the data to be processed.
 
 ```java
 
@@ -98,11 +98,11 @@ jsc.awaitTermination();
 
 ### Training Dataset
 
-This project uses a training dataset of 1000 questions written in `trainingDataset.txt` located in `Spark/Setup` directory. The Consumer read the data using JSON format and parse them into a Dataset.
+This project uses a training dataset of 1000 questions written in `trainingDataset.txt` and located in `Spark/Setup` directory. The Consumer reads the data using JSON format and parses them into a Dataset.
 
 ### Pipeline
 
-Before passing data to clustering algorithm, they are need to be prepared.<br>
+Before passing the data to clustering algorithm, they need to be prepared.<br>
 A <a href="https://spark.apache.org/docs/latest/ml-pipeline.html">Pipeline</a> is specified as a sequence of stages, and each one is either a **Transformer** or an **Estimator**.
 
 A **Transformer** is an abstraction that includes feature transformers and learned models. It implements a method **transform()**, which converts one DataFrame into another, generally by appending one or more columns.
@@ -158,15 +158,15 @@ These stages are run in order, and the input DataFrame is transformed as it pass
 
 First, the pipeline receives in input the training dataset using **fit()** method and producing a PipelineModel in output.
 
-The PipelineModel has the **transform()** method. It receives in input the training dataset to produce the dataset transformed that will be used to train the clustering algorithm.<br>
+The PipelineModel has the **transform()** method. It receives in input the training dataset to produce the transformed dataset that will be used to train the clustering algorithm.<br>
 The same PipelineModel object is used to transform dataset containing real-time questions.
 
 ### Word2vec stages
 
-<a href="https://spark.apache.org/docs/latest/ml-features.html#word2vec">Word2Vec</a> is an **Estimator** which takes sequences of words representing documents and trains a Word2VecModel. The model maps each word to a unique fixed-size vector (size 100 in this project). The Word2VecModel is a **Transformer** that transforms each document into a vector using the average of all words in the document; this vector can then be used as features for prediction.
+<a href="https://spark.apache.org/docs/latest/ml-features.html#word2vec">Word2Vec</a> is an **Estimator** which takes sequences of words representing documents and trains a Word2VecModel. The model maps each word to a unique fixed-size vector (size 100 in this project). The Word2VecModel is a **Transformer** that transforms each document into a vector using the average of all words in the document; this vector can then be used as features column for prediction.
 
-- ```setMinCount()```, set the minimum number of times a token must appear to be included in the word2vec model's vocabulary.
-- ```setWindowSize()```, set the number of near words that influences the current word.
+- ```setMinCount()```, set the minimum number of times that a token must appear to be included in the word2vec model's vocabulary.
+- ```setWindowSize()```, set the number of near words that influence the current word.
 
 ### Clustering
 
@@ -181,13 +181,13 @@ Dataset<Row> featuresDataset = assembler.transform(dataset);
 
 Clustering is the process of grouping similar entities together. The goal of this **unsupervised** machine learning technique is to find similarities in the data point and group similar data points together.
 
-It is an unsupervised technique because it looks in a dataset with no pre-existing labels.
+It is an unsupervised technique because it looks into a dataset with no pre-existing labels.
 
-There are many algorithms developed to implement this technique and provided by MLlib. In this project, it is implemented the **K-Means** algorithm.
+There are many developed algorithms to implement this technique and provided by MLlib. In this project, it is implemented the **K-Means** algorithm.
 
 ### K-Means
 
-K-Means is the most popular clustering algorithm, based on centroids calculation. It clusters the data points into a predefined number of clusters.
+K-Means is the most popular clustering algorithm, based on centroids calculation. It assembles the data points into a predefined number of clusters.
 
 <img src="../docs/project-overview/images/k-means.png" width="800" height="300">
 
@@ -195,7 +195,7 @@ K-Means is the most popular clustering algorithm, based on centroids calculation
 
 #### How can be found the value of K?
 
-The most popular method is called **Elbow**, but unfortunately could not be applyied to this project.
+The most popular method is **Elbow**, but on this project couldn't be applied.
 
 Instead, it was used the **Silhouette analysis**. The Silhouette score is a measure of how close each point in one cluster is to points in the neighboring clusters. This measure has a range of [-1, 1].<br>
 Silhouette coefficients near +1 indicate that the sample is far away from the neighboring clusters. A value of 0 indicates that the sample is on or very close to the decision boundary between two neighboring clusters and negative values indicate that those samples might have been assigned to the wrong cluster.
@@ -205,7 +205,7 @@ ClusteringEvaluator evaluator = new ClusteringEvaluator();
 double silhouette = evaluator.evaluate(predictDataset);
 ```
 
-It was found a trade off about **K = 10** and **silhouette = 0.40**
+It was found a trade off between **K = 10** and **silhouette = 0.40**
 
 #### Training K-Means
 
@@ -234,7 +234,7 @@ JavaEsSpark.saveJsonToEs(predictionDataset.toJSON().toJavaRDD(), "es/stackoflw")
 
 ## Build Spark Consumer
 
-Run ```bash build-consumer.sh``` command inside Spark/Setup directory to build the Spark Consumer.
+Run the following command ```bash build-consumer.sh``` inside Spark/Setup directory to build the Spark Consumer.
 
 ## Docker container information
 

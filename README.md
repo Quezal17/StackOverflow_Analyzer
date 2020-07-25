@@ -3,7 +3,7 @@ Developed by **Simone Torrisi**, Computer Science student at University of Catan
 
 ## Project Goal
 
-The goal of this project is to analyze real time questions from <a href="https://stackoverflow.com/">**Stack Overflow**</a>, clustering them based on title, body and tags associated to the question and displaying results on dashboards.
+The goal of this project is to analyze real time questions from <a href="https://stackoverflow.com/">**Stack Overflow**</a> and clustering them based on title, body and tags associated to the question. The results will be then displayed on dashboards.
 
 You can get more information visiting docs, Kafka and Spark directories.
 
@@ -28,17 +28,16 @@ You can get more information visiting docs, Kafka and Spark directories.
 <li><strong>Apache Kafka</strong>: download from <a href="https://www.apache.org/dyn/closer.cgi?path=/kafka/2.5.0/kafka_2.12-2.5.0.tgz">here</a> and put the tgz file into Kafka/Setup directory.</li>
 <li><strong>Apache Spark</strong>: download from <a href="https://www.apache.org/dyn/closer.lua/spark/spark-3.0.0/spark-3.0.0-bin-hadoop2.7.tgz">here</a> and put the tgz file into Spark/Setup directory.</li>
 </ul>
-Make sure that you have <a href="https://docs.docker.com/get-docker/">Docker</a> and <a href="https://maven.apache.org/download.cgi">Apache Maven</a> installed yet.
+In addition, it is required that <a href="https://docs.docker.com/get-docker/">Docker</a> and <a href="https://maven.apache.org/download.cgi">Apache Maven</a> have been already installed.
 
-### Initial setup and build
-From terminal, make sure that you are in the main directory of the project.
+### Initial setup
+To start the initial setup the following script <code>initial-setup.sh</code> has to be executed in the main directory.
 
-To start the initial setup and build you have to exec the <code>initial-setup.sh</code> script.<br>
-You have two options:
+There are two options:
 <ul>
 <li> Using bash command: <code>bash initial-setup.sh</code>
 <li> Making script executable: <code>chmod +x initial-setup.sh</code> and then <code>./initial-setup.sh</code>
 </ul>
 
 ### Start project
-After the previous phase is finished, you can start the project with <code>docker-compose up</code>
+After the previous step is completed, the project can be started by using the code <code>docker-compose up</code>
