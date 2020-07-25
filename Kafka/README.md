@@ -2,6 +2,8 @@
 
 ## What is Apache Kafka?
 
+<img src="../docs/project-overview/images/kafka-logo.png" width="400" height="200">
+
 <a href="https://kafka.apache.org/intro">Apache Kafka</a> is a distributed streaming platform that handle constant real-time data stream.
 
 Kafka has three key capabilities:
@@ -22,9 +24,15 @@ Kafka includes <a href="https://kafka.apache.org/documentation.html#connect">Con
 
 ## Kafka Connector
 
-The Kafka Connector is used for the process of Data Ingestion. It has the task of connecting to Stack Exchange web socket, filtering data received about only Stack Overflow domain and writing to a Kafka topic.
+<img src="../docs/project-overview/images/kafka-connect-logo.svg" width="400" height="200">
 
-It was built using Java 11 and <a href="https://maven.apache.org/">Apache Maven</a>
+The Kafka Connector is used for the process of Data Ingestion. A web socket module has the task of connecting to the Stack Exchange web socket, filtering data received about only Stack Overflow domain and writing record to a Blocking Queue named *QuestionsQueue*. The connector has the task of reading from a QuestionsQueue and writing record into the Kafka topic named *stackoverflow*.
+
+<img src="../docs/project-overview/images/data-ingestion-schema.svg" width="600" height="200">
+
+<img src="../docs/project-overview/images/kafka-schema.svg" width="600" height="200">
+
+It was built using Java 11 and <a href="https://maven.apache.org/">Apache Maven</a>.
 
 ### Kafka properties
 
@@ -91,7 +99,7 @@ Data are retrieved from Stack Exchange web socket, filtered by domain and writte
 
 ```
 
-The web socket address is: <code>wss://qa.sockets.stackexchange.com/</code>.
+The web socket address is: <code>wss://qa.sockets.stackexchange.com/</code>
 
 As soon as it is connected to the web socket, it sends a request to subscribe the client to receive specific type of data.<br>
 In this case, the request is <code> 155-questions-active</code>, that retrieve real-time questions from all site of Stack Exchange network.
@@ -117,7 +125,7 @@ To find the site id, it's possible to parse <a href="https://meta.stackexchange.
 
 #### Heartbeat
 
-Every 5 minutes, the socket sends a heartbeat request. If the client replys with heartbeat response, the web socket will kept alive.
+Every 5 minutes, the socket sends a heartbeat request. If the client replys with heartbeat response, the connection will kept alive.
 
 Heartbeat request:
 <code>
@@ -198,3 +206,9 @@ The **poll()** method of the SourceTask is called periodically (default every 3 
 ## Build Kafka Connector
 
 Run ```bash build-connector.sh``` command inside Kafka/Setup directory to build the Kafka Connector.
+
+## Docker container information
+
+- **Name**: stackoflw-kafka
+- **IP Address**: 10.0.100.25
+- **Ports**: 9092:9092
